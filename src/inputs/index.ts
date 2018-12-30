@@ -1,3 +1,3 @@
-import { NewUserInput } from "./NewUserInput";
+import { UserInput } from "./UserInput";
 
-export { NewUserInput };
+export { UserInput };
