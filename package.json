@@ -1,0 +1,26 @@
+{
+  "name": "typescript-graphql-boilerplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.ts",
+  "dependencies": {
+    "@types/dotenv": "^6.1.0",
+    "apollo-server": "^2.3.1",
+    "dotenv": "^6.2.0",
+    "graphql": "^14.0.2",
+    "nodemon": "^1.18.9",
+    "reflect-metadata": "^0.1.12",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.12.0",
+    "type-graphql": "^0.16.0",
+    "typescript": "^3.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node_modules/.bin/nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec './node_modules/.bin/ts-node' src/app.ts",
+    "start": "./node_modules/.bin/ts-node src/app.ts"
+  },
+  "author": "Brian Schulte",
+  "license": "ISC"
+}
