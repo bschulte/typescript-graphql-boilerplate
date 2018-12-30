@@ -3,6 +3,7 @@ import { getRepository, Repository } from "typeorm";
 
 import { User } from "../entities";
 import { NewUserInput } from "../inputs";
+import { randomStr } from "../helpers/util";
 
 @Resolver(User)
 export class UserResolver {
@@ -16,6 +17,7 @@ export class UserResolver {
   @Mutation(() => User)
   public async createUser(@Arg("newUserData") newUserData: NewUserInput) {
     const newUser = await this.repository.create(newUserData);
+    newUser.apiKey = randomStr(36);
 
     return await this.repository.save(newUser);
   }

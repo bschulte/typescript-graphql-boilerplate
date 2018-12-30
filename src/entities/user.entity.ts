@@ -21,6 +21,9 @@ export class User {
   @Column()
   public password!: string;
 
+  @Column()
+  public apiKey!: string;
+
   @Field(() => Date)
   @CreateDateColumn()
   public created!: Date;
