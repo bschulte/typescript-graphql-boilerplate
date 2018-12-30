@@ -1,5 +1,6 @@
 import { Resolver, Query, Arg, Mutation } from "type-graphql";
 import { getRepository, Repository } from "typeorm";
+import jwt from "jsonwebtoken";
 
 import { User } from "../entities";
 import { UserInput } from "../inputs";
@@ -46,6 +47,8 @@ export class UserResolver {
       throw new Error("Invalid password");
     }
 
-    return "token";
+    return jwt.sign({ email }, process.env.APP_KEY || "super secret", {
+      expiresIn: "2d"
+    });
   }
 }
