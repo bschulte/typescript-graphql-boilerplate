@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import { User, Test } from "./entities";
-import { TestResolver } from "./resolvers";
+import { TestResolver, UserResolver } from "./resolvers";
 
 const {
   NODE_ENV = "production",
@@ -18,7 +18,7 @@ const {
   DB_PASSWORD = "password"
 } = process.env;
 
-const schema = buildSchemaSync({ resolvers: [TestResolver] });
+const schema = buildSchemaSync({ resolvers: [TestResolver, UserResolver] });
 
 const server = new ApolloServer({
   schema,

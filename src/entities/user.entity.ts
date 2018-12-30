@@ -1,7 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn
+} from "typeorm";
 import { ObjectType, Field, ID } from "type-graphql";
 
-@Entity()
+@Entity({ name: "users" })
 @ObjectType({ description: "User model" })
 export class User {
   @Field(() => ID)
@@ -14,4 +20,12 @@ export class User {
 
   @Column()
   public password!: string;
+
+  @Field(() => Date)
+  @CreateDateColumn()
+  public created!: Date;
+
+  @Field(() => Date)
+  @UpdateDateColumn()
+  public updated!: Date;
 }
