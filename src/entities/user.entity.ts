@@ -3,9 +3,11 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  BeforeInsert
 } from "typeorm";
 import { ObjectType, Field, ID } from "type-graphql";
+import { hashString } from "../helpers/authentication";
 
 @Entity({ name: "users" })
 @ObjectType({ description: "User model" })
@@ -31,4 +33,10 @@ export class User {
   @Field(() => Date)
   @UpdateDateColumn()
   public updated!: Date;
+
+  @BeforeInsert()
+  public beforeInsert() {
+    this.password = hashString(this.password);
+    this.apiKey = hashString(this.apiKey);
+  }
 }

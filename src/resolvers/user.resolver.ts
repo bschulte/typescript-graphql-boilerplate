@@ -4,7 +4,7 @@ import { getRepository, Repository } from "typeorm";
 import { User } from "../entities";
 import { UserInput } from "../inputs";
 import { randomStr } from "../helpers/util";
-import { hashPassword, comparePasswords } from "../helpers/authentication";
+import { comparePasswords } from "../helpers/authentication";
 
 @Resolver(User)
 export class UserResolver {
@@ -17,14 +17,21 @@ export class UserResolver {
 
   @Mutation(() => User)
   public async createUser(@Arg("newUserData") newUserData: UserInput) {
+    // Check if user with the given email exists already
+    const user = await this.repository.findOne({ email: newUserData.email });
+    if (user) {
+      console.log("User already exists with email:", newUserData.email);
+      throw new Error("User exists already");
+    }
+
     const newUser = await this.repository.create(newUserData);
     newUser.apiKey = randomStr(36);
-    newUser.password = hashPassword(newUserData.password);
+    console.log(`User ${newUserData.email} API key: ${newUser.apiKey}`);
 
     return await this.repository.save(newUser);
   }
 
-  @Mutation(() => User)
+  @Mutation(() => String)
   public async login(@Arg("userData") { email, password }: UserInput) {
     const user = await this.repository.findOne({ email });
     // Check if the user exists
@@ -39,6 +46,6 @@ export class UserResolver {
       throw new Error("Invalid password");
     }
 
-    return user;
+    return "token";
   }
 }
