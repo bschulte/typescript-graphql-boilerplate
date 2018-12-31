@@ -14,7 +14,7 @@ import { hashString } from "../helpers/authentication";
 export class User {
   @Field(() => ID)
   @PrimaryGeneratedColumn()
-  public readonly id!: string;
+  public readonly id!: number;
 
   @Field(() => String)
   @Column()

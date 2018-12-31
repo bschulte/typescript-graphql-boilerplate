@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 
 import { User } from "../entities";
 import { UserInput } from "../inputs";
-import { randomStr } from "../helpers/util";
 import { comparePasswords } from "../helpers/authentication";
 
 @Resolver(User)
@@ -12,8 +11,19 @@ export class UserResolver {
   private repository: Repository<User> = getRepository(User);
 
   @Query(() => User)
-  public async user() {
-    return await this.repository.findOne();
+  @Authorized(["ADMIN"])
+  public async user(
+    @Arg("email", { nullable: true }) email: string,
+    @Arg("userId", { nullable: true }) userId: number
+  ) {
+    if (!email && !userId) {
+      return null;
+    }
+    if (email) {
+      return await this.repository.findOne({ email });
+    } else {
+      return await this.repository.findOne({ id: userId });
+    }
   }
 
   @Mutation(() => User)
