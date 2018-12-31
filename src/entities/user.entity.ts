@@ -23,8 +23,8 @@ export class User {
   @Column()
   public password!: string;
 
-  @Column()
-  public apiKey!: string;
+  @Column({ default: false })
+  public isAdmin!: boolean;
 
   @Field(() => Date)
   @CreateDateColumn()
@@ -37,6 +37,5 @@ export class User {
   @BeforeInsert()
   public beforeInsert() {
     this.password = hashString(this.password);
-    this.apiKey = hashString(this.apiKey);
   }
 }

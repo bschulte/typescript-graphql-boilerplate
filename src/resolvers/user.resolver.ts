@@ -1,4 +1,4 @@
-import { Resolver, Query, Arg, Mutation } from "type-graphql";
+import { Resolver, Query, Arg, Mutation, Authorized } from "type-graphql";
 import { getRepository, Repository } from "typeorm";
 import jwt from "jsonwebtoken";
 
@@ -17,6 +17,7 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
+  @Authorized(["ADMIN"])
   public async createUser(@Arg("newUserData") newUserData: UserInput) {
     // Check if user with the given email exists already
     const user = await this.repository.findOne({ email: newUserData.email });
@@ -26,8 +27,6 @@ export class UserResolver {
     }
 
     const newUser = await this.repository.create(newUserData);
-    newUser.apiKey = randomStr(36);
-    console.log(`User ${newUserData.email} API key: ${newUser.apiKey}`);
 
     return await this.repository.save(newUser);
   }
