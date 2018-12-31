@@ -3,8 +3,6 @@ import { Request } from "apollo-server-express";
 import { User } from "../entities";
 import { getRepository } from "typeorm";
 
-const getUser = (email: string, id: number) => {};
-
 export const authChecker: AuthChecker<Request> = async (
   { context, args }: { context: any; args: any },
   roles: string[]
